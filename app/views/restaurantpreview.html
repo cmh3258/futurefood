@@ -1,0 +1,33 @@
+
+<div>
+  <h2>{{restaurant.name}}</h2>
+
+  <h3 itemprop="name">{{restaurant.restName}} 
+    <span>{{restaurant.company.categories}}</span>
+  </h3>
+  
+  <!-- <p>y: {{restaurant.yelp_id_array}}</p> -->
+  <div ng-if="restaurant.company.yelp_id_array.length > 0">
+    <a ng-href="{{restaurant.company.yelp_id_array[2]}}" target="_blank">
+      <img ng-src="{{restaurant.company.yelp_id_array[1]}}" alt="Yelp Reviews"/>
+    </a>
+  </div>
+
+  <div class="restaurantSubInfo">
+    <div>
+      <h4>{{restaurant.providers[0].deliveryTimeMin}}<span ng-if="restaurant.providers[0].displayMax">-{{restaurant.providers[0].deliveryTimeMax}}</span> min
+      </h4>
+      <h5 results-text>{{deliveryTimeLabel}}</h5>
+    </div>
+    <div>
+      <h4>${{restaurant.providers[0].minPurchase}}</h4>
+      <h5 results-text>{{deliveryMinLabel}}</h5>
+    </div>
+    <div>
+      <h4>${{restaurant.providers[0].deliveryPriceFlat}}<span ng-if="restaurant.providers[0].displayPercent">+{{restaurant.providers[0].deliveryPercent}}%</span>
+      </h4>
+      <h5 results-text>{{deliveryFeeLabel}}</h5>
+    </div>
+  </div>
+
+</div>

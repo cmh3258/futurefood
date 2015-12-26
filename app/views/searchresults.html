@@ -1,0 +1,7 @@
+<p>This is the searchresults view.</p>
+
+<div ng-repeat="restaurant in restaurants">
+  <restaurantpreview restaurant="restaurant"></restaurantpreview>
+</div>
+
+<h3 ng-if="restaurants.length === 0">No Restaurants</h3>
