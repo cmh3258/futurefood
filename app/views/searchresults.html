@@ -1,5 +1,8 @@
 <p>This is the searchresults view.</p>
 
+<h4>Provider Count: {{retrievedProviders.length}} : {{retrievedProviders[retrievedProviders.length-1]}}</h4>
+<h4>Restaurant Count : {{restaurants.length}}</h4>
+
 <div ng-repeat="restaurant in restaurants">
   <restaurantpreview restaurant="restaurant"></restaurantpreview>
 </div>

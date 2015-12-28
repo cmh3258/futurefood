@@ -1,6 +1,6 @@
 
-<div>
-  <h2>{{restaurant.name}}</h2>
+<div ng-mouseover="showSelectRestaurantBtn = !showSelectRestaurantBtn" ng-mouseout="showSelectRestaurantBtn = !showSelectRestaurantBtn">
+  <!-- <h2>{{restaurant.name}}</h2> -->
 
   <h3 itemprop="name">{{restaurant.restName}} 
     <span>{{restaurant.company.categories}}</span>
@@ -29,5 +29,7 @@
       <h5 results-text>{{deliveryFeeLabel}}</h5>
     </div>
   </div>
+
+  <button ng-show="showSelectRestaurantBtn" class="btn-alert" ng-click="goToMenu(restaurant)">show menu</button>
 
 </div>

@@ -9,16 +9,20 @@
  */
 angular.module('harvestWebApp')
   .controller('SearchresultsCtrl', function ($scope, ScraperService) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
 
-    ScraperService.getRestaurants().then(function(response){
-      console.log('getRestaurants: ', response);
-      $scope.restaurants = response.restaurants;
-    })
+    //call scrapers and postmates
+    ScraperService.getRestaurants();
+
+    $scope.$watch(function(){
+      return ScraperService.getFormattedRestaurants();
+    },
+    function(newValue){
+      var retrievedProviders = ScraperService.getScrapeProviders();
+      console.log('retrievedProviders: ', retrievedProviders);
+      $scope.retrievedProviders = retrievedProviders;
+      $scope.restaurants = newValue;
+    });
+
 
 
   });

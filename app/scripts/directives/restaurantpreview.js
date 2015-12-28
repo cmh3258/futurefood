@@ -16,6 +16,16 @@ angular.module('harvestWebApp')
       },
       link: function postLink(scope, element, attrs) {
         // element.text('this is the restaurantpreview directive');
+      },
+      controller:function($scope, $location, RestaurantService){
+        
+        $scope.goToMenu = function(restaurant){
+          console.log('[goToMenu] restaurant: ', restaurant);
+          RestaurantService.setRestaurant(restaurant);
+          var restaurantName = restaurant.restName.split(' ').join('-');
+          $location.path('/'+restaurantName+'/menu');
+        };
+
       }
     };
   });

@@ -8,13 +8,15 @@
  * Factory in the harvestWebApp.
  */
 angular.module('harvestWebApp')
-  .factory('ScraperService', function ($http, AddressService) {
+  .factory('ScraperService', function ($http, AddressService, $q, $timeout) {
     // Service logic
     // ...
 
     var meaningOfLife = 42;
     var formattedRestaurants = [];
     var categories = [];
+    // var scrapeResults = [];
+    var retrievedProviders = [];
 
     /*
      * Gets the best provider between two choices
@@ -226,25 +228,80 @@ angular.module('harvestWebApp')
       return formattedRestaurants;
     }
 
-    function getRestaurantsInArea(){
-      var data = AddressService.getAddressAttrs();
-      // return $http.post()
-      console.log('data: ', data);
 
-      return $http({
-        method: 'POST',
-        url: 'http://squirtle-harvest.herokuapp.com/pcompatability/',
-        data: data
-      }).then(function successCallback(response) {
-        console.log('response: ', response);
-          // this callback will be called asynchronously
-          // when the response is available
-          var results = response.data;
+  
 
-          if(results === 'Error'){
-            // do nothing
+
+    function pollForScrapeResults(jobID) {
+    // console.log('pollForScrapeResults ', jobID);
+
+    var timeout = '';
+    var poller = function() {
+
+      // $http.get('http://127.0.0.1:5000/results/'+jobID).            
+      $http.get('//harvest-rest-match.herokuapp.com/results/'+jobID).
+        success(function(data, status) {
+          if (status === 200)
+          {
+            if(data === 'Failed'){
+              var randomString = Math.random().toString(36).substring(7);
+              retrievedProviders.push(randomString);
+              return;
+            }
+            else
+            {
+              try{
+                var providerName = data.providerName;
+                retrievedProviders.push(providerName);
+                format(data);
+              }
+              catch(e){
+                var randomString = Math.random().toString(36).substring(7);
+                retrievedProviders.push(randomString);
+              } 
+              return;
+            }
           }
           else{
+            // console.log('Failed (else)');
+          }
+          timeout = $timeout(poller, 3200);
+
+        })
+        .error(function(response){
+          console.log('HTTP results/ error ', response.data, response.status);
+          o.theCount += 1;
+          if(o.theCount === o.localeslength){
+            o.resultsAreDone = true;
+          }
+        });
+    };
+    poller();
+
+  };
+
+
+    function getRestaurantsInArea(){
+      var data = AddressService.getAddressAttrs();
+      var postmates = $http({
+            method: 'POST',
+            url:'http://squirtle-harvest.herokuapp.com/pcompatability/',
+            data:data
+          })
+      var scraper = $http({
+            method: 'POST',
+            url:'http://harvest-rest-match.herokuapp.com/testrq',
+            data:data
+          })
+
+      postmates.then(function(response){
+        console.log('postmates response: ', response);
+
+        var results = response.data;
+          if(results === 'Error'){}
+          else{
+            retrievedProviders.push('Postmates');
+
             // o.localeslength += 1;
             var company = {};
             for(var i = 0; i < results.restaurants.length; i++){
@@ -252,35 +309,38 @@ angular.module('harvestWebApp')
                 'url':results.restaurants[i].url,
                 'categories':results.restaurants[i].categories,
                 'yelp_id':results.restaurants[i].yelp_id,
-                'logo_url':results.restaurants[i].logo_url
+                'logo_url':results.restaurants[i].logo_url,
+                'menu_id':results.restaurants[i].menu_id
               };
               var provider = JSON.parse(results.restaurants[i].provider_menu_url);
               results.restaurants[i].company = company;
               results.restaurants[i].r_n = results.restaurants[i].name;
-              results.restaurants[i].p_f = 4.99;
+              results.restaurants[i].p_f = 5.99;
               results.restaurants[i].p_p = 9;
               results.restaurants[i].t_m = 45;
               results.restaurants[i].t_x = 70;
               results.restaurants[i].m_d = 0;
               results.restaurants[i].r_u = provider[0].postmates;
             }
-            // o.scrapeResults.push({providerName:results.providerName, data:results});
-
             var formatted = format(results);
-            return {providerName:results.providerName, restaurants:formatted};
-
+            return;
           }
 
-
+      }, function errorCallback(response) {
+          console.log('error response: ', response);
           return response;
-        }, function errorCallback(response) {
-          // called asynchronously if an error occurs
+        })
+
+
+      scraper.then(function(response){
+        var results = response.data;
+        for(var i=0;i<results.length;i++){
+          pollForScrapeResults(results[i]);
+        }
+      }, function errorCallback(response) {
         console.log('error response: ', response);
-          // or server returns response with an error status.
           return response;
-
-        });
-
+        })
     }
 
     // Public API here
@@ -290,6 +350,12 @@ angular.module('harvestWebApp')
       },
       getRestaurants:function() {
         return getRestaurantsInArea();
+      },
+      getFormattedRestaurants:function(){
+        return formattedRestaurants;
+      },
+      getScrapeProviders:function(){
+        return retrievedProviders;
       }
     };
 
