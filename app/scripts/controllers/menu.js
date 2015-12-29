@@ -11,5 +11,9 @@ angular.module('harvestWebApp')
   .controller('MenuCtrl', function ($scope, menu) {
    
     console.log('[menu] ', menu);
-    
+
+    if(menu){
+      $scope.menu = menu.data;
+    }
+
   });

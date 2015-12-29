@@ -1,1 +1,8 @@
 <p>This is the menu view.</p>
+
+<div ng-repeat="section in menu.sections" ng-if="section.is_displayed">
+  <h3>{{section.name}}</h3>
+  <div ng-repeat="entry in section.entries" ng-if="entry.is_displayed">
+    <entry entry="entry"></entry>
+  </div>
+</div>
