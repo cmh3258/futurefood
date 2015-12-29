@@ -43,7 +43,8 @@ angular
             console.log('RestaurantService.restaurant: ', RestaurantService.restaurant);
             if(!_.isEmpty(RestaurantService.restaurant)){
               //load menu
-              MenuService.getMenuById(RestaurantService.restaurant.company.menu_id).then(function(response){
+              return MenuService.getMenuById(RestaurantService.restaurant.company.menu_id).then(function(response){
+                console.log('response: ',response);
                 //need to check for success
                 return response;
               })
