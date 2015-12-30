@@ -1,29 +1,31 @@
 
 
-<h1>{{entry.name}}</h1>
-<h2>{{entry.price}}</h2>
-<h3>{{entry.description}}</h3>
+<div class="entryContainer">
+  <h1>{{entry.name}}</h1>
+  <h2>{{entry.price}}</h2>
+  <h3>{{entry.description}}</h3>
 
-<div ng-repeat="option in entry.custom_options">
-  <h3>{{option.header}}</h3>
-  <h4 ng-if="is_required">Required</h4>
-  <h4>{{option.disclaimer}}</h4>
-  <h4>{{option.sub_header}}</h4>
-  <h4>section_price: {{option.section_price}}</h4>
+  <div ng-repeat="option in entry.custom_options">
+    <h3>{{option.header}}</h3>
+    <h4 ng-if="is_required">Required</h4>
+    <h4>{{option.disclaimer}}</h4>
+    <h4>{{option.sub_header}}</h4>
+    <h4>section_price: {{option.section_price}}</h4>
 
-  <div ng-repeat="opt in option" ng-if="opt.selection_type === 'checkbox'">
-    <h2>Select Multiple</h2>
-    <h5>{{opt.name}}</h5>
-    <h5>{{opt.description}}</h5>
-    <h5 ng-if="opt.price !== '0.0' || opt.price !=== 0">{{opt.price}}</h5>
+    <div ng-repeat="opt in option.options" ng-if="option.selection_type === 'checkbox'">
+      <label>
+        <input type="checkbox" name="{{option.header}}" ng-model="option.selected[opt.name]" ng-true-value="{{opt.price}}"><span>{{opt.name}}</span><span ng-if="opt.price !== '0.0' && opt.price !== 0">+{{opt.price}}</span>
+      </label>
+    </div>
+
+    <div ng-repeat="opt in option.options" ng-if="option.selection_type == 'radial' || option.selection_type == 'dropdown' || option.selection_type == 'radio'">
+      <label>
+        <input type="radio" name="{{option.header}}" ng-model="option.selected" ng-value="{{opt}}"><span>{{opt.name}}</span><span ng-if="opt.price !== '0.0' && opt.price !== 0">{{opt.price}}</span>
+      </label>
+    </div>
   </div>
 
-  <div ng-repeat="opt in option" ng-if="opt.selection_type == 'radial' || opt.selection_type == 'dropdown' || opt.selection_type == 'radio'">
-    <h2>Select One</h2>
-    <h5>{{opt.name}}</h5>
-    <h5>{{opt.description}}</h5>
-    <h5 ng-if="opt.price !== '0.0' || opt.price !=== 0">{{opt.price}}</h5>
-  </div>
+  <button ng-click="addToCart(entry)">Add to cart</button>
 
 </div>
 
