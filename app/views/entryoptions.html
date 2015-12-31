@@ -2,8 +2,12 @@
 
 <div class="entryContainer">
   <h1>{{entry.name}}</h1>
-  <h2>{{entry.price}}</h2>
+  <h2>{{entry.price}} -> Total: {{entry.totalPrice}}</h2>
   <h3>{{entry.description}}</h3>
+
+  <h4>qty : {{entry.qty}}</h4>
+  <button ng-click="qty(1)">+</button>
+  <button ng-click="qty(-1)">-</button>
 
   <div ng-repeat="option in entry.custom_options">
     <h3>{{option.header}}</h3>
@@ -14,13 +18,13 @@
 
     <div ng-repeat="opt in option.options" ng-if="option.selection_type === 'checkbox'">
       <label>
-        <input type="checkbox" name="{{option.header}}" ng-model="option.selected[opt.name]" ng-true-value="{{opt.price}}"><span>{{opt.name}}</span><span ng-if="opt.price !== '0.0' && opt.price !== 0">+{{opt.price}}</span>
+        <input type="checkbox" name="{{option.header}}" ng-model="option.selected[opt.name]" ng-true-value="{{opt.price}}" ng-click="selected(opt)"><span>{{opt.name}}</span><span ng-if="opt.price !== '0.0' && opt.price !== 0">+{{opt.price}}</span>
       </label>
     </div>
 
     <div ng-repeat="opt in option.options" ng-if="option.selection_type == 'radial' || option.selection_type == 'dropdown' || option.selection_type == 'radio'">
       <label>
-        <input type="radio" name="{{option.header}}" ng-model="option.selected" ng-value="{{opt}}"><span>{{opt.name}}</span><span ng-if="opt.price !== '0.0' && opt.price !== 0">{{opt.price}}</span>
+        <input type="radio" name="{{option.header}}" ng-model="option.selected" ng-value="{{opt}}" ng-click="selected(option.selected)"><span>{{opt.name}}</span><span ng-if="opt.price !== '0.0' && opt.price !== 0">{{opt.price}}</span>
       </label>
     </div>
   </div>

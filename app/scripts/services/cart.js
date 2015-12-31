@@ -25,6 +25,18 @@ angular.module('harvestWebApp')
       }
     }
 
+    function add(price,total){
+      return checkType(checkType(total) + checkType(price));
+    }
+
+    function subtract(price,total){
+      return checkType(checkType(total) - checkType(price));
+    }
+
+    function multiply(price, total){
+      return checkType(checkType(total) * checkType(price));
+    }
+
     // Public API here
     return {
       addEntryToCart: function(entry){
@@ -53,6 +65,23 @@ angular.module('harvestWebApp')
         entry.optionsSelected = optionsSelected;
         entry.totalPrice = optionsPrice + entry_price;
         cart.push(entry);
+      },
+      checkPriceType: function(price){
+        return checkType(price);
+      },
+      optionPricePreview: function(entry, option){
+        var optionAlreadyAdded = _.findWhere(entry.selectedOptions, {name: option.name});
+        if(optionAlreadyAdded){
+          return subtract(optionAlreadyAdded.price,entry.totalPrice);
+        }
+        else{
+          return add(option.price,entry.totalPrice);
+        }
+      },
+      optionQty: function(entry,multiplyBy){
+        var entryPrice = entry.price;
+        var newEntryWithQty = multiply(entryPrice,multiplyBy);
+        return add(entry.totalPrice,newEntryWithQty);
       }
     };
   });
