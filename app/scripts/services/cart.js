@@ -55,6 +55,7 @@ angular.module('harvestWebApp')
     // Public API here
     return {
       addEntryToCart: function(entry){
+        entry = angular.copy(entry);
         //get price of entry
         var entry_price = checkType(entry.totalPrice);
 
@@ -63,7 +64,7 @@ angular.module('harvestWebApp')
         // var optionsPrice = 0;
         for(var i = 0; i < entry.custom_options.length; i++){
           var selected = entry.custom_options[i].selected;
-          delete entry.custom_options[i]['$$hashKey'];
+          // delete entry.custom_options[i]['$$hashKey'];
           
           if(selected !== undefined && 'price' in selected){
             optionsSelected.push(selected.name);
@@ -80,9 +81,9 @@ angular.module('harvestWebApp')
           }
 
           //delete the hashkeys so can add same item multiple times
-          for(var j = 0; j < entry.custom_options[i].options.length; j++){
+          /*for(var j = 0; j < entry.custom_options[i].options.length; j++){
             delete entry.custom_options[i].options[j]['$$hashKey'];
-          }
+          }*/
         }
 
         entry.optionsSelected = optionsSelected;
