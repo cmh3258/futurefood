@@ -8,7 +8,7 @@
  * Controller of the harvestWebApp
  */
 angular.module('harvestWebApp')
-  .controller('EntryoptionsCtrl', function ($scope, entry, $modalInstance, CartService) {
+  .controller('EntryoptionsCtrl', function ($scope, entry, newCartItem, $modalInstance, CartService) {
     console.log('[EntryoptionsCtrl] entry: ', entry);
 
     // console.log(typeof entry.custom_options);
@@ -40,9 +40,10 @@ angular.module('harvestWebApp')
     };
 
     $scope.addToCart = function(){
+      // console.log('newCartItem: ', newCartItem);
       // console.log('[addToCart] entry: ', entry, entry.totalPrice);
-      console.log('scopenetry: ', $scope.entry,$scope.entry.totalPrice);
-      CartService.addEntryToCart($scope.entry);
+      // console.log('scopenetry: ', $scope.entry,$scope.entry.totalPrice);
+      CartService.addEntryToCart($scope.entry, newCartItem);
       $modalInstance.close();
     };
 

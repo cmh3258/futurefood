@@ -36,6 +36,9 @@ angular.module('harvestWebApp')
             resolve: {
               entry: function () {
                 return entry;
+              },
+              newCartItem: function(){
+                return false;
               }
             }
           });
