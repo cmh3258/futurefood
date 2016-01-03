@@ -1,9 +1,11 @@
 
 <div id="cart">
-  <div ng-repeat="item in cart" class="cartItem">
-    <h3>name:{{item.name}}</h3>
-    <h3>qty:{{item.qty}}</h3>
-    <h3>total:{{item.totalPrice}}</h3>
-    <h3>options selected:{{item.selectedOptions}}</h3>
+  <h4>Cart Total: {{cartTotal}}</h4>
+  <div ng-repeat="item in cart track by $index" class="cartItem">
+    <h3>{{item.name}}</h3>
+    <h4>qty ({{item.qty}})</h4>
+    <h4>${{item.totalPrice}}</h4>
+    <p ng-repeat="option in item.optionsSelected track by $index">-{{option}}</p>
+    <button ng-click="openOptions(item)">Edit</button>
   </div>
 </div>

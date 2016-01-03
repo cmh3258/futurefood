@@ -352,6 +352,7 @@ angular.module('harvestWebApp')
         return getRestaurantsInArea();
       },
       getFormattedRestaurants:function(){
+        // console.log('formattedRestaurants: ', formattedRestaurants);
         return formattedRestaurants;
       },
       getScrapeProviders:function(){

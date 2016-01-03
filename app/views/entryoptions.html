@@ -18,18 +18,18 @@
 
     <div ng-repeat="opt in option.options" ng-if="option.selection_type === 'checkbox'">
       <label>
-        <input type="checkbox" name="{{option.header}}" ng-model="option.selected[opt.name]" ng-true-value="{{opt.price}}" ng-click="selected(opt)"><span>{{opt.name}}</span><span ng-if="opt.price !== '0.0' && opt.price !== 0">+{{opt.price}}</span>
+        <input type="checkbox" name="{{option.header}}" ng-model="option.selected[opt.name]" ng-true-value="{{opt.price}}" ng-click="selected(opt,option)"><span>{{opt.name}}</span><span ng-if="opt.price !== '0.0' && opt.price !== 0">+{{opt.price}}</span>
       </label>
     </div>
 
     <div ng-repeat="opt in option.options" ng-if="option.selection_type == 'radial' || option.selection_type == 'dropdown' || option.selection_type == 'radio'">
       <label>
-        <input type="radio" name="{{option.header}}" ng-model="option.selected" ng-value="{{opt}}" ng-click="selected(option.selected)"><span>{{opt.name}}</span><span ng-if="opt.price !== '0.0' && opt.price !== 0">{{opt.price}}</span>
+        <input type="radio" name="{{option.header}}" ng-model="opt.selected" ng-value="true" ng-click="selected(opt,option)"><span>{{opt.name}}</span><span ng-if="opt.price !== '0.0' && opt.price !== 0">{{opt.price}}</span>
       </label>
     </div>
   </div>
 
-  <button ng-click="addToCart(entry)">Add to cart</button>
+  <button ng-click="addToCart()">Add to cart</button>
 
 </div>
 

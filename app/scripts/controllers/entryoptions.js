@@ -13,18 +13,23 @@ angular.module('harvestWebApp')
 
     // console.log(typeof entry.custom_options);
 
-    entry.selectedOptions = [];
-    entry.qty = 1;
-    entry.totalPrice = CartService.checkPriceType(entry.price);
+    initial();
 
-    if(typeof entry.custom_options !== 'object'){
-      if(entry.custom_options.length !== 0){
-        var options = JSON.parse(entry.custom_options);
-        options = options[Object.keys(options)[0]];
-        entry.custom_options = options;
+    function initial(){
+      $scope.entry = entry;
+      $scope.entry.selectedOptions = [];
+      $scope.entry.qty = 1;
+      $scope.entry.totalPrice = CartService.checkPriceType(entry.price);
+
+      if(typeof $scope.entry.custom_options !== 'object'){
+        if($scope.entry.custom_options.length !== 0){
+          var options = JSON.parse($scope.entry.custom_options);
+          options = options[Object.keys(options)[0]];
+          $scope.entry.custom_options = options;
+        }
       }
+      // $scope.entry = entry;
     }
-    $scope.entry = entry;
 
     $scope.ok = function () {
       $modalInstance.close($scope.selected.item);
@@ -34,22 +39,40 @@ angular.module('harvestWebApp')
       $uibModalInstance.dismiss('cancel');
     };
 
-    $scope.addToCart = function(entry){
-      console.log('[addToCart] entry: ', entry);
-      CartService.addEntryToCart(entry);
+    $scope.addToCart = function(){
+      // console.log('[addToCart] entry: ', entry, entry.totalPrice);
+      console.log('scopenetry: ', $scope.entry,$scope.entry.totalPrice);
+      CartService.addEntryToCart($scope.entry);
       $modalInstance.close();
     };
 
-    $scope.$watch(function(){
+    /*$scope.$watch(function(){
       return $scope.entry;
     },
     function(newEntry){
       console.log('newEntry: ', newEntry);
-    })
+    })*/
 
     //calculate the total amount with entry option pricing
-    $scope.selected = function(option){
-      $scope.entry.totalPrice = CartService.optionPricePreview($scope.entry,option);
+    $scope.selected = function(selected,option){
+      console.log('selected option: ', option);
+      if(option.selection_type !== 'checkbox'){
+        for (var i = 0; i < option.options.length; i++){
+          if(option.options[i].name !== selected.name){
+            option.options[i].selected = false;
+          }
+        }
+        option.selected = selected;
+        $scope.entry.totalPrice = CartService.optionRadialPricePreview($scope.entry,selected);
+      }
+      else{
+        $scope.entry.totalPrice = CartService.optionCheckboxPricePreview($scope.entry,option);
+      }
+      // option.selected = true;
+
+      //with radials - if select another need to discount the previous price added.
+        //keep track of qty * price
+        //keep track of qty * price + options pricing.
     };
 
     $scope.qty = function(amount){

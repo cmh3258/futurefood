@@ -16,10 +16,37 @@ angular.module('harvestWebApp')
 
 
       },
-      controller:function($scope, CartService){
+      controller:function($scope, CartService, $modal){
         console.log('cart directive.');
-
         $scope.cart = CartService.getCart();
+        $scope.cartTotal = CartService.getCartTotal();
+        
+        $scope.$watch(function(){
+          return CartService.getCartTotal();
+        },function(newValue){
+          $scope.cartTotal = newValue;
+        })
+
+        $scope.openOptions = function (entry) {
+          var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: 'views/entryoptions.html',
+            controller: 'EntryoptionsCtrl',
+            // size: size,
+            resolve: {
+              entry: function () {
+                return entry;
+              }
+            }
+          });
+
+          modalInstance.result.then(function (selectedItem) {
+            $scope.selected = selectedItem;
+          }, function () {
+            // $log.info('Modal dismissed at: ' + new Date());
+            console.log('modal dismissed');
+          });
+        };
 
 
       }
