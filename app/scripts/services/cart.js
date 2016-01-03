@@ -48,7 +48,7 @@ angular.module('harvestWebApp')
         var optionsPrice = 0;
         for(var i = 0; i < entry.custom_options.length; i++){
           var selected = entry.custom_options[i].selected;
-          if('price' in selected){
+          if(selected !== undefined && 'price' in selected){
             optionsSelected.push(selected.name);
             var p = checkType(selected.price);
             optionsPrice += p;
@@ -64,10 +64,18 @@ angular.module('harvestWebApp')
 
         entry.optionsSelected = optionsSelected;
         entry.totalPrice = optionsPrice + entry_price;
+
+        //check minimum + calculate tax + remaining amount needed for minimum -> before pushing
+
         cart.push(entry);
+        console.log('cart: ', cart);
       },
       checkPriceType: function(price){
         return checkType(price);
+      },
+      getCart: function(){
+        // console.log('getCart111: ', cart);
+        return cart;
       },
       optionPricePreview: function(entry, option){
         var optionAlreadyAdded = _.findWhere(entry.selectedOptions, {name: option.name});

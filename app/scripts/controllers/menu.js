@@ -16,4 +16,6 @@ angular.module('harvestWebApp')
       $scope.menu = menu.data;
     }
 
+    
+
   });

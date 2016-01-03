@@ -1,0 +1,17 @@
+
+/* Menu */
+  .menu-left{
+    width: 70%;
+    /*display: inline-block;*/
+    float: left;
+  }
+  .menu-right{
+    width: 25%;
+    display: inline-block;
+  }
+
+/* Cart */
+.cartItem{
+  padding:1em;
+  border: 1px solid black;
+}

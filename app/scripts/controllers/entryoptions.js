@@ -37,6 +37,7 @@ angular.module('harvestWebApp')
     $scope.addToCart = function(entry){
       console.log('[addToCart] entry: ', entry);
       CartService.addEntryToCart(entry);
+      $modalInstance.close();
     };
 
     $scope.$watch(function(){

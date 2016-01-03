@@ -13,7 +13,7 @@ angular.module('harvestWebApp')
     //call scrapers and postmates
     ScraperService.getRestaurants();
 
-    $scope.$watch(function(){
+    /*$scope.$watch(function(){
       return ScraperService.getFormattedRestaurants();
     },
     function(newValue){
@@ -21,7 +21,11 @@ angular.module('harvestWebApp')
       console.log('retrievedProviders: ', retrievedProviders);
       $scope.retrievedProviders = retrievedProviders;
       $scope.restaurants = newValue;
-    });
+    });*/
+
+    $scope.restaurants = ScraperService.getFormattedRestaurants();
+
+    $scope.retrievedProviders = ScraperService.getScrapeProviders();;
 
 
 
