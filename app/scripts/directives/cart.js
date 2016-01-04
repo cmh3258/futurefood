@@ -16,16 +16,18 @@ angular.module('harvestWebApp')
 
 
       },
-      controller:function($scope, CartService, $modal){
+      controller:function($scope, CartService, $modal, ProviderService){
         console.log('cart directive.');
         $scope.cart = CartService.getCart();
         $scope.cartTotal = CartService.getCartTotal();
+        $scope.cartMinimum = ProviderService.getProviderMinimum();
         
         $scope.$watch(function(){
           return CartService.getCartTotal();
         },function(newValue){
           $scope.cartTotal = newValue;
         })
+
 
         $scope.openOptions = function (entry) {
           var modalInstance = $modal.open({
@@ -43,12 +45,11 @@ angular.module('harvestWebApp')
             }
           });
 
-          modalInstance.result.then(function (selectedItem) {
+          /*modalInstance.result.then(function (selectedItem) {
             $scope.selected = selectedItem;
           }, function () {
-            // $log.info('Modal dismissed at: ' + new Date());
             console.log('modal dismissed');
-          });
+          });*/
         };
 
 

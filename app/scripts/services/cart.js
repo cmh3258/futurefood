@@ -14,6 +14,8 @@ angular.module('harvestWebApp')
 
     var cart = [];
     var cartTotal = 0;
+    // var cartMinimum = 0;
+    var meetsMinimum = false;
 
     function checkType(price){
       if(typeof price === 'number' || typeof price === 'float'){
@@ -48,11 +50,15 @@ angular.module('harvestWebApp')
       }
     }
 
+
     // Public API here
     return {
       addEntryToCart: function(entry, newCartItem){
         //copy the item - angular tracks objects by hashkeys
-        entry = angular.copy(entry);
+        if(newCartItem){
+          console.log('copying...');
+          entry = angular.copy(entry);
+        }
         
         //get price of entry
         var entry_price = checkType(entry.totalPrice);
@@ -76,7 +82,6 @@ angular.module('harvestWebApp')
 
         entry.optionsSelected = optionsSelected;
         //check minimum + calculate tax + remaining amount needed for minimum -> before pushing
-        // delete entry['$$hashKey'];
 
         //either push new item, or exchange the items
         if(!newCartItem){
@@ -87,6 +92,8 @@ angular.module('harvestWebApp')
             cart.splice(existingCartItemIndex,1);
           }
         }
+
+        console.log('pushing entry: ', entry);
         cart.push(entry);
         calcCartTotal();
       },
@@ -98,6 +105,9 @@ angular.module('harvestWebApp')
       },
       getCartTotal: function(){
         return cartTotal;
+      },
+      doesMeetMinimum: function(){
+        return meetsMinimum;
       },
       optionRadialPricePreview: function(entry, selected){
         return add(selected.price,multiply(entry.price,entry.qty));        

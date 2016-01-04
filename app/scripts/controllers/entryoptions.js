@@ -17,17 +17,20 @@ angular.module('harvestWebApp')
 
     function initial(){
       $scope.entry = entry;
-      $scope.entry.selectedOptions = [];
-      $scope.entry.qty = 1;
-      $scope.entry.totalPrice = CartService.checkPriceType(entry.price);
+      if(newCartItem){
+        $scope.entry.selectedOptions = [];
+        $scope.entry.qty = 1;
+        $scope.entry.totalPrice = CartService.checkPriceType(entry.price);
 
-      if(typeof $scope.entry.custom_options !== 'object'){
-        if($scope.entry.custom_options.length !== 0){
-          var options = JSON.parse($scope.entry.custom_options);
-          options = options[Object.keys(options)[0]];
-          $scope.entry.custom_options = options;
+        if(typeof $scope.entry.custom_options !== 'object'){
+          if($scope.entry.custom_options.length !== 0){
+            var options = JSON.parse($scope.entry.custom_options);
+            options = options[Object.keys(options)[0]];
+            $scope.entry.custom_options = options;
+          }
         }
       }
+      
       // $scope.entry = entry;
     }
 
@@ -40,19 +43,9 @@ angular.module('harvestWebApp')
     };
 
     $scope.addToCart = function(){
-      // console.log('newCartItem: ', newCartItem);
-      // console.log('[addToCart] entry: ', entry, entry.totalPrice);
-      // console.log('scopenetry: ', $scope.entry,$scope.entry.totalPrice);
       CartService.addEntryToCart($scope.entry, newCartItem);
       $modalInstance.close();
     };
-
-    /*$scope.$watch(function(){
-      return $scope.entry;
-    },
-    function(newEntry){
-      console.log('newEntry: ', newEntry);
-    })*/
 
     //calculate the total amount with entry option pricing
     $scope.selected = function(selected,option){
@@ -69,11 +62,6 @@ angular.module('harvestWebApp')
       else{
         $scope.entry.totalPrice = CartService.optionCheckboxPricePreview($scope.entry,option);
       }
-      // option.selected = true;
-
-      //with radials - if select another need to discount the previous price added.
-        //keep track of qty * price
-        //keep track of qty * price + options pricing.
     };
 
     $scope.qty = function(amount){

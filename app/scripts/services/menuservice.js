@@ -17,9 +17,9 @@ angular.module('harvestWebApp')
     // Public API here
     return {
       retrieveMenu: function(restaurantName){
-        $http({
+        return $http({
           method: 'POST',
-          url:'http://squirtle-harvest.herokuapp.com/orders',
+          url:'http://squirtle-harvest.herokuapp.com/companybylocale/',
           data:{'restaurant_name':restaurantName}
         }).then(function(response){
           console.log('[retrieveMenu] Success response: ', response);
@@ -35,6 +35,7 @@ angular.module('harvestWebApp')
         return menu;
       },
       getMenuById: function(id){
+        console.log('getMenuById - id: ', id);
         return $http({
           method: 'GET',
           url:'http://squirtle-harvest.herokuapp.com/menus/'+ id.toString() + '/'

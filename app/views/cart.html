@@ -1,6 +1,10 @@
 
 <div id="cart">
   <h4>Cart Total: {{cartTotal}}</h4>
+  <p>Minimum: {{cartMinimum}}. Meets minimum: 
+    <span ng-if="cartTotal >= cartMinimum">YES</span>
+    <span ng-if="cartTotal < cartMinimum">NO</span>
+  </p>
   <div ng-repeat="item in cart track by $index" class="cartItem">
     <h3>{{item.name}}</h3>
     <h4>qty ({{item.qty}})</h4>

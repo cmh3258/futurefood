@@ -14,9 +14,6 @@ angular.module('harvestWebApp')
       scope:{
         restaurant:'='
       },
-      link: function postLink(scope, element, attrs) {
-        // element.text('this is the restaurantpreview directive');
-      },
       controller:function($scope, $location, RestaurantService){
         
         $scope.goToMenu = function(restaurant){

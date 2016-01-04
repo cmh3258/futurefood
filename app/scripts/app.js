@@ -45,7 +45,7 @@ angular
             if(!_.isEmpty(RestaurantService.restaurant)){
               //load menu
               return MenuService.getMenuById(RestaurantService.restaurant.company.menu_id).then(function(response){
-                console.log('response: ',response);
+                // console.log('response: ',response);
                 //need to check for success
                 return response;
               })
@@ -54,8 +54,15 @@ angular
               var restaurant = $route.current.params.restaurantname;
               var restaurantNameArray = restaurant.split('-').join(' ');
               return MenuService.retrieveMenu(restaurantNameArray).then(function(response){
-                console.log('Success menu resolve response: ', response);
-                return response;
+                // console.log('Success menu resolve response: ', response);
+                // return response;
+                if('menu_id' in response.data){
+                  return MenuService.getMenuById(response.data.menu_id).then(function(response){
+                    // console.log('response: ',response);
+                    //need to check for success
+                    return response;
+                  })
+                }
               })
               .catch(function(response){
                 console.log('ERROR menu resolve response: ', response);

@@ -8,7 +8,7 @@
  * Factory in the harvestWebApp.
  */
 angular.module('harvestWebApp')
-  .factory('RestaurantService', function () {
+  .factory('RestaurantService', function (ProviderService) {
     // Service logic
     // ...
 
@@ -21,6 +21,7 @@ angular.module('harvestWebApp')
       },
       setRestaurant: function(restaurant){
         this.restaurant = restaurant;
+        ProviderService.setCurrentProvider = restaurant.providers[0];
       },
       getRestaurant: function(){
         return restaurant;
