@@ -54,7 +54,7 @@ angular
               var restaurant = $route.current.params.restaurantname;
               var restaurantNameArray = restaurant.split('-').join(' ');
               return MenuService.retrieveMenu(restaurantNameArray).then(function(response){
-                // console.log('Success menu resolve response: ', response);
+                console.log('Success menu resolve response: ', response);
                 // return response;
                 if('menu_id' in response.data){
                   return MenuService.getMenuById(response.data.menu_id).then(function(response){
@@ -70,6 +70,14 @@ angular
             }
           }
         }
+      })
+      .when('/:restaurantname/menu/providers', {
+        templateUrl: 'views/providers.html',
+        controller: 'ProvidersCtrl'
+      })
+      .when('/checkout', {
+        templateUrl: 'views/checkout.html',
+        controller: 'CheckoutCtrl'
       })
       .otherwise({
         redirectTo: '/'

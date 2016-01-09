@@ -7,7 +7,7 @@
  * # cart
  */
 angular.module('harvestWebApp')
-  .directive('cart', function (CartService) {
+  .directive('cart', function (CartService, RestaurantService) {
     return {
       templateUrl: 'views/cart.html',
       restrict: 'E',
@@ -16,11 +16,12 @@ angular.module('harvestWebApp')
 
 
       },
-      controller:function($scope, CartService, $modal, ProviderService){
+      controller:function($scope, CartService, $modal, ProviderService, $location){
         console.log('cart directive.');
         $scope.cart = CartService.getCart();
         $scope.cartTotal = CartService.getCartTotal();
         $scope.cartMinimum = ProviderService.getProviderMinimum();
+        // $scope.hasAddress = null;
         
         $scope.$watch(function(){
           return CartService.getCartTotal();
@@ -51,6 +52,11 @@ angular.module('harvestWebApp')
             console.log('modal dismissed');
           });*/
         };
+
+        $scope.selectProvider = function(){
+          var restaurantName = RestaurantService.getRestaurantUrlName();
+          $location.path('/'+restaurantName+'/menu/providers');
+        }
 
 
       }

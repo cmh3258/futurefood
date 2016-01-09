@@ -19,7 +19,7 @@ angular.module('harvestWebApp')
         $scope.goToMenu = function(restaurant){
           console.log('[goToMenu] restaurant: ', restaurant);
           RestaurantService.setRestaurant(restaurant);
-          var restaurantName = restaurant.restName.split(' ').join('-');
+          var restaurantName = RestaurantService.getRestaurantUrlName();
           $location.path('/'+restaurantName+'/menu');
         };
 

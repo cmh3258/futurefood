@@ -13,6 +13,7 @@ angular.module('harvestWebApp')
     // ...
 
     var restaurant = null;
+    var restaurantUrlName = null; //for app routes
 
     // Public API here
     return {
@@ -21,10 +22,14 @@ angular.module('harvestWebApp')
       },
       setRestaurant: function(restaurant){
         this.restaurant = restaurant;
+        restaurantUrlName = restaurant.restName.split(' ').join('-');
         ProviderService.setCurrentProvider = restaurant.providers[0];
       },
       getRestaurant: function(){
         return restaurant;
+      },
+      getRestaurantUrlName: function(){
+        return restaurantUrlName;
       }
     };
   });

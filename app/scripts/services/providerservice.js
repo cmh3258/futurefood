@@ -26,6 +26,9 @@ angular.module('harvestWebApp')
       },
       getProviderMinimum: function(){
         return providerMinimum;
+      },
+      getDeliveryPriceFlat: function() {
+        return currentProvider.deliveryPriceFlat;
       }
     };
   });

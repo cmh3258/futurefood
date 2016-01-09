@@ -41,9 +41,9 @@ angular.module('harvestWebApp')
             savedAddresses = addresses;
             return savedAddresses;
           }
-          else{
+          /*else{
             return false;
-          }
+          }*/
         }
         else{
           $window.localStorage.setItem('savedAddresses', JSON.stringify(addresses));

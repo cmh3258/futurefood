@@ -1,4 +1,12 @@
 
+<h2 ng-if="userAddress">Address : {{userAddress}}</h2>
+<div ng-if="!userAddress">
+  <h2>No address, please insert one</h2>
+  <addressbar></addressbar>
+  <button ng-click="searchForRestaurants()">search</button>
+</div>
+
+
 <div class="menu-left">
   <div ng-repeat="section in menu.sections" ng-if="section.is_displayed">
     <h3>{{section.name}}</h3>
