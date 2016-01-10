@@ -29,6 +29,31 @@ angular.module('harvestWebApp')
       },
       getDeliveryPriceFlat: function() {
         return currentProvider.deliveryPriceFlat;
+      },
+      get_best_provider: function(previous_provider, current_provider){
+        var provider_heirarchy = ['GrubHub','dineondemand','eat24','bitesquad','eatstreet','mrdelivery','eatoutin','postmates'];
+
+        //get index of past provider chosen
+        for(var past_index = 0; past_index < provider_heirarchy.length; past_index++){
+          if(provider_heirarchy[past_index].toLowerCase() === previous_provider.providerName.toLowerCase()){
+            break;
+          }
+        }
+
+        //get index of current provider
+        for(var current_index = 0; current_index < provider_heirarchy.length; current_index++){
+          if(provider_heirarchy[current_index].toLowerCase() === current_provider.providerName.toLowerCase()){
+            break;
+          }
+        }
+
+        //if the provider is more important than the previous one
+        if(past_index > current_index){
+          return current_provider;
+        }
+        else{
+          return previous_provider;
+        }
       }
     };
   });

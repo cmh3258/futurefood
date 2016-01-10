@@ -35,7 +35,7 @@ angular.module('harvestWebApp')
         return menu;
       },
       getMenuById: function(id){
-        console.log('getMenuById - id: ', id);
+        // console.log('getMenuById - id: ', id);
         return $http({
           method: 'GET',
           url:'http://squirtle-harvest.herokuapp.com/menus/'+ id.toString() + '/'

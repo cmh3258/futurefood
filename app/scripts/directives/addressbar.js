@@ -24,11 +24,11 @@ angular.module('harvestWebApp')
           var address = autocomplete.getPlace();
           scope.$apply(function(){
             AddressService.checkAddress(address).then(function(response){
-              console.log('[AddressService.checkAddress] Success: ', response);
+              // console.log('[AddressService.checkAddress] Success: ', response);
               scope.address = response;
             },
             function(response){
-              console.log('[AddressService.checkAddress] Error: ', response);
+              // console.log('[AddressService.checkAddress] Error: ', response);
               scope.address = response;
             });
           });

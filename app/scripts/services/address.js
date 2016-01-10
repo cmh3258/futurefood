@@ -48,16 +48,13 @@ angular.module('harvestWebApp')
       },
       checkAddress: function(address) {
         var defer = $q.defer();
-
-        console.log('checkAddress: ', address);
-
         if(address){
           formatted_address = 'formatted_address' in address ? address.formatted_address : null;
           lat = 'geometry' in address ? address.geometry.location.lat() : null;
           lng = 'geometry' in address ? address.geometry.location.lng() : null;
-          console.log(formatted_address, ' : ', lat , ': ',lng);
+          // console.log(formatted_address, ' : ', lat , ': ',lng);
           zipcode = getZip(address);
-          console.log('zipcode: ', zipcode);
+          // console.log('zipcode: ', zipcode);
         }
 
         if(formatted_address === null){

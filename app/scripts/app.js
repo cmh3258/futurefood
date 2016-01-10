@@ -41,7 +41,7 @@ angular
         controller: 'MenuCtrl',
         resolve:{
           menu : function($route, RestaurantService, MenuService){
-            console.log('RestaurantService.restaurant: ', RestaurantService.restaurant);
+            // console.log('RestaurantService.restaurant: ', RestaurantService.restaurant);
             if(!_.isEmpty(RestaurantService.restaurant)){
               //load menu
               return MenuService.getMenuById(RestaurantService.restaurant.company.menu_id).then(function(response){
@@ -54,13 +54,14 @@ angular
               var restaurant = $route.current.params.restaurantname;
               var restaurantNameArray = restaurant.split('-').join(' ');
               return MenuService.retrieveMenu(restaurantNameArray).then(function(response){
-                console.log('Success menu resolve response: ', response);
-                // return response;
+                // console.log('Success menu resolve response: ', response);
+                // console.log('might have to save this information to RestaurantService');
                 if('menu_id' in response.data){
-                  return MenuService.getMenuById(response.data.menu_id).then(function(response){
+                  return MenuService.getMenuById(response.data.menu_id).then(function(responseMenu){
+                    RestaurantService.makeRestaurantObject(response.data);
                     // console.log('response: ',response);
                     //need to check for success
-                    return response;
+                    return responseMenu;
                   })
                 }
               })

@@ -13,22 +13,17 @@ angular.module('harvestWebApp')
       restrict: 'E',
       link: function postLink(scope, element, attrs) {
         // element.text('this is the cart directive');
-
-
       },
       controller:function($scope, CartService, $modal, ProviderService, $location){
-        console.log('cart directive.');
         $scope.cart = CartService.getCart();
         $scope.cartTotal = CartService.getCartTotal();
         $scope.cartMinimum = ProviderService.getProviderMinimum();
-        // $scope.hasAddress = null;
         
         $scope.$watch(function(){
           return CartService.getCartTotal();
         },function(newValue){
           $scope.cartTotal = newValue;
         })
-
 
         $scope.openOptions = function (entry) {
           var modalInstance = $modal.open({
