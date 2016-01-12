@@ -21,7 +21,6 @@ angular.module('harvestWebApp')
 
     function checkForAddress(){
       var userAddress = AddressService.getAddressAttrs();
-      // console.log('address: ', userAddress);
       if('address' in userAddress){
         if(userAddress.address !== null){
           $scope.userAddress = userAddress.address;
@@ -32,12 +31,9 @@ angular.module('harvestWebApp')
 
     $scope.searchForRestaurants = function(){
       var address = checkForAddress();
-      // alert('*need to get provider_menu_urls + provider');
-      RestaurantService.singleRestaurantmatch();
-      //get company object
-        //in retrieveMenu call, should put provider_menu_urls inside so dont have to make api call to get company.
-      
-      //singleRestaurantmatch - make api call to get one restaurant from classic or postmates
+      if(!RestaurantService.singleRestaurantmatch()){
+        alert('This is not in your delivery zone. Sorry.');
+      }
     }
 
     
